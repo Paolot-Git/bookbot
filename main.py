@@ -3,26 +3,36 @@ def main():
         text = f.read()
         print(text)
 
-        words = text.split()
-        print(len(words))
+        print(get_num_words(text))
 
-        _dict = {}
-        text_lower = text.lower()
-        for letter in text_lower:
-            if letter in _dict:
-                _dict[letter] += 1
-            else:
-                _dict[letter] = 1
-        _list = [
-            f"The '{x[0]}' character was found {x[1]} times"
-            for x in _dict.items()
-            if x[0].isalpha()
-        ]
-        print(_list)
+        chars_dict = get_chars_dict(text)
+
+        sorted_list = chars_dict_to_sorted_list(chars_dict)
+
+        for char in sorted_list:
+            print(char)
+
+
+def get_num_words(text):
+    return len(text.split())
+
+
+def get_chars_dict(text):
+    _dict = {}
+    for letter in text.lower():
+        if letter in _dict:
+            _dict[letter] += 1
+        else:
+            _dict[letter] = 1
+    return _dict
+
+
+def chars_dict_to_sorted_list(dictionary):
+    return [
+        f"The '{x[0]}' character was found {x[1]} times"
+        for x in sorted(dictionary.items(), key=lambda x: x[1], reverse=True)
+        if x[0].isalpha()
+    ]
 
 
 main()
-
-
-def sort_on(dict):
-    return dict["num"]
